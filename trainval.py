@@ -32,6 +32,12 @@ def main(args):
         from dataloader.mini_imagenet import MiniImageNet as Dataset
     elif args.dataset == 'CUB':
         from dataloader.cub import CUB as Dataset
+    elif args.dataset == 'Caltech':
+        from dataloader.caltech import Caltech as Dataset
+    elif args.dataset == 'Cars':
+        from dataloader.cars import Cars as Dataset
+    elif args.dataset == 'Dogs':
+        from dataloader.dogs import Dogs as Dataset
     else:
         raise ValueError('Non-supported Dataset.')
 

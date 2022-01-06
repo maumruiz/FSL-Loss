@@ -7,10 +7,10 @@ import numpy as np
 
 THIS_PATH = osp.dirname(__file__)
 ROOT_PATH = osp.abspath(osp.join(THIS_PATH, '..'))
-IMAGE_PATH = osp.normpath(osp.join(ROOT_PATH, '../datasets/MiniImagenet/images'))
-SPLIT_PATH = osp.normpath(osp.join(ROOT_PATH, '../datasets/MiniImagenet/split'))
+IMAGE_PATH = osp.normpath(osp.join(ROOT_PATH, '../datasets/Stanford_Dogs/images'))
+SPLIT_PATH = osp.normpath(osp.join(ROOT_PATH, '../datasets/Stanford_Dogs/split'))
 
-class MiniImageNet(Dataset):
+class Dogs(Dataset):
     """ Usage: 
     """
     def __init__(self, setname, args):

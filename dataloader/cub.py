@@ -69,7 +69,7 @@ class CUB(Dataset):
 
     def __getitem__(self, i):
         path, label = self.data[i], self.label[i]
-        img_id = path.split('/')[-1].split('.')[0]
+        img_id = path.split('/')[-1]
         image = self.transform(Image.open(path).convert('RGB'))
         return image, label, img_id
 

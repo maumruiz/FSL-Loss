@@ -54,18 +54,6 @@ class MiniImageNet(Dataset):
                 transforms.ToTensor(),
                 transforms.Normalize(np.array([x / 255.0 for x in [125.3, 123.0, 113.9]]), 
                                      np.array([x / 255.0 for x in [63.0, 62.1, 66.7]]))])
-        elif args.backbone == 'AmdimNet':
-            INTERP = 3
-            post_transform = transforms.Compose([
-                transforms.ToTensor(),
-                transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                     std=[0.229, 0.224, 0.225])
-            ])
-            self.transform = transforms.Compose([
-                transforms.Resize(146, interpolation=INTERP),
-                transforms.CenterCrop(128),
-                post_transform
-            ])
         else:
             raise ValueError('Non-supported Network Types. Please Revise Data Pre-Processing Scripts.')
 

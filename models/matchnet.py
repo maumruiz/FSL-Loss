@@ -57,10 +57,6 @@ class MatchNet(nn.Module):
             from networks.resnet import ResNet
             self.encoder = ResNet()
             layer_size = 320
-        elif args.backbone == 'AmdimNet':
-            from networks.amdimnet import AmdimNet
-            self.encoder = AmdimNet(ndf=args.ndf, n_rkhs=args.rkhs, n_depth=args.nd)
-            layer_size = int(args.rkhs/2)
         else:
             raise ValueError('')
 

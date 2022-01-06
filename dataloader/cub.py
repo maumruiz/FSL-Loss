@@ -42,27 +42,14 @@ class CUB(Dataset):
         self.num_class = np.unique(np.array(label)).shape[0]
 
 
-        if args.backbone == 'AmdimNet':
-            INTERP = 3
-            post_transform = transforms.Compose([
-                transforms.ToTensor(),
-                transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                     std=[0.229, 0.224, 0.225])
-            ])
-            self.transform = transforms.Compose([
-                transforms.Resize(146, interpolation=INTERP),
-                transforms.CenterCrop(128),
-                post_transform
-            ])
-        else:
-            normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                             std=[0.229, 0.224, 0.225])
+        normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                            std=[0.229, 0.224, 0.225])
 
-            self.transform = transforms.Compose([
-                transforms.Resize(84, interpolation=PIL.Image.BICUBIC),
-                transforms.CenterCrop(84),
-                transforms.ToTensor(),
-                normalize])
+        self.transform = transforms.Compose([
+            transforms.Resize(84, interpolation=PIL.Image.BICUBIC),
+            transforms.CenterCrop(84),
+            transforms.ToTensor(),
+            normalize])
 
     def __len__(self):
         return len(self.data)

@@ -17,10 +17,6 @@ class Classifier(nn.Module):
             hdim = 640
             from networks.resnet import ResNet as ResNet
             self.encoder = ResNet()
-        elif args.backbone == 'AmdimNet':
-            from networks.amdimnet import AmdimNet as AmdimNet
-            self.encoder = AmdimNet(ndf=args.ndf, n_rkhs=args.rkhs, n_depth=args.nd)
-            hdim = args.rkhs
         else:
             raise ValueError('')
 

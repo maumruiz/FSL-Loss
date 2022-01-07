@@ -3,6 +3,7 @@ import json
 import torch
 import pandas as pd
 import shutil
+import numpy as np
 
 class ExpLogger():
     def __init__(self, args):
@@ -18,7 +19,11 @@ class ExpLogger():
         self.parameters = 0
         self.elapsed_time = ''
         self.query_predictions = []
+        self.query_ids = []
         self.query_labels = []
+        self.logits = []
+        self.support_ids = []
+        self.support_labels = []
     
     def _to_obj(self):
         log = {}
@@ -113,6 +118,24 @@ class ExpLogger():
         logits_df = pd.DataFrame()
         logits_df['label'] = self.query_labels
         logits_df['prediction'] = self.query_predictions
+        logits_df['query_id'] = self.query_ids
+
+        logits_t = torch.Tensor(self.logits).T
+        for i in range(self.args['way']):
+            logits_df[f'logits_proto_{i+1}'] = logits_t[i]
+
+        supp_labels = np.repeat(self.support_labels, self.args['way'] * self.args['query'], axis=0)
+        supp_labels_t = supp_labels.T
+        for i in range(self.args['way']):
+            for j in range(self.args['shot']):
+                logits_df[f'support_label_category{i+1}_img{j+1}'] = supp_labels_t[i * j + j]
+
+        supp_ids = np.repeat(self.support_ids, self.args['way'] * self.args['query'], axis=0)
+        supp_ids_t = supp_ids.T
+        for i in range(self.args['way']):
+            for j in range(self.args['shot']):
+                logits_df[f'support_id_category{i+1}_img{j+1}'] = supp_ids_t[i * j + j]
+
         logits_df.to_csv(osp.join(path, 'logits.csv'), index=False)
 
     def save_model(self, path, name):

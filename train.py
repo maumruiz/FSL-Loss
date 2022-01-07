@@ -211,6 +211,17 @@ def main(args):
             if args.save_features:
                 args.fts_labels.append(batch[1][:args.way*args.shot])
                 args.fts_ids.append(batch[2][:args.way*args.shot])
+
+            if args.save_logits:
+                labels = batch[1][:args.way*args.shot].unique_consecutive()
+                pred = torch.argmax(logits, dim=1)
+                explog.query_predictions += [labels[x].item() for x in pred]
+                explog.query_ids += batch[2][args.way*args.shot:]
+                explog.query_labels += batch[1][args.way*args.shot:].tolist()
+                explog.support_ids += [batch[2][:args.way*args.shot]]
+                explog.support_labels += [batch[1][:args.way*args.shot].tolist()]
+                explog.logits += logits.tolist()
+
             
             ave_acc.add(acc)
             test_acc_record[i-1] = acc
@@ -235,6 +246,9 @@ def main(args):
 
     if args.save_features:
         explog.save_features(args.save_path)
+    
+    if args.save_logits:
+        explog.save_logits(args.save_path)
     
     print(f"### Elapsed time: {elapsed_time}")
 
